@@ -29,7 +29,7 @@
 (defcustom lsp-tailwindcss-server-download-location
   (expand-file-name "vscode-tailwindcss" user-emacs-directory)
   "download location for automatic install"
-  'type 'string
+  :type 'string
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-server-file
