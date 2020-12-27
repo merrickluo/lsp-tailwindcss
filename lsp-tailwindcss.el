@@ -81,6 +81,7 @@
   :major-modes '(web-mode css-mode html-mode)
   :server-id 'tailwindcss
   :priority -1
+  :add-on? t
   :notification-handlers (lsp-ht ("tailwindcss/configUpdated" 'lsp-tailwindcss--callback))
   :download-server-fn (lambda (client callback error-callback update?)
                         (when lsp-tailwindcss-auto-install-server
