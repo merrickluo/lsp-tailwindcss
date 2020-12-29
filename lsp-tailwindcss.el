@@ -71,6 +71,10 @@
               -1)
           (string-trim (buffer-string)))))
 
+(defun lsp-tailwindcss--configuration (workspace args)
+  (let ((id (gethash "_id" args)))
+    (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
+
 (lsp-register-client
  (make-lsp-client
   :new-connection (lsp-stdio-connection
@@ -79,7 +83,8 @@
   :major-modes '(web-mode css-mode html-mode)
   :server-id 'tailwindcss
   :priority -1
-  :notification-handlers (lsp-ht ("tailwindcss/configUpdated" 'lsp-tailwindcss--callback))
+  :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
+                             ("tailwindcss/getConfiguration" #'lsp-tailwindcss--configuration))
   :download-server-fn (lambda (client callback error-callback update?)
                         (when lsp-tailwindcss-auto-install-server
                           (lsp-tailwindcss--install-server client callback error-callback update?)))))
