@@ -49,7 +49,7 @@
   (message "lsp-tailwindcss callback %s" workspace))
 
 (defun lsp-tailwindcss--install-server (client callback error-callback update?)
-  (if (and (not udpate?) lsp-tailwindcss-server-installed-p)
+  (if (and (not update?) lsp-tailwindcss-server-installed-p)
       (lsp--info "tailwindcss language server already installed.")
     (let ((tempfile (make-temp-file "ext" nil ".zip")))
       (lsp--info "installing tailwindcss language server, please wait.")
