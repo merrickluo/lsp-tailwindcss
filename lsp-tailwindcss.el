@@ -45,8 +45,8 @@
   (file-exists-p lsp-tailwindcss-server-file)
   "check if server is installed")
 
-(defun lsp-tailwindcss--callback (workspace &rest _)
-  (message "lsp-tailwindcss callback %s" workspace))
+(defun lsp-tailwindcss--callback (workspace &rest args)
+  (message "lsp-tailwindcss callback %s: %s" workspace args))
 
 (defun lsp-tailwindcss--install-server (client callback error-callback update?)
   (if (and (not update?) lsp-tailwindcss-server-installed-p)
