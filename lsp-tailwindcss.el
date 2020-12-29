@@ -26,18 +26,13 @@
   "lsp support for tailwind css"
   :group 'lsp-mode)
 
-(defcustom lsp-tailwindcss-server-dir (expand-file-name "tailwindcss-intellisense" user-emacs-directory)
+(defcustom lsp-tailwindcss-server-dir (expand-file-name "tailwindcss" lsp-server-install-dir)
   "local directory for tailwindcss/intellisense"
   :type 'string
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-file (expand-file-name "dist/server/index.js" lsp-tailwindcss-server-dir)
+(defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/index.js" lsp-tailwindcss-server-dir)
   "index.js file location of tailwindcss-intellisense, do not change it if use builtin install methods"
-  :type 'string
-  :group 'lsp-tailwindcss)
-
-(defcustom lsp-tailwindcss-server-remote "https://github.com/tailwindcss/intellisense"
-  "git repo of tailwindcss language server"
   :type 'string
   :group 'lsp-tailwindcss)
 
@@ -50,22 +45,25 @@
   (file-exists-p lsp-tailwindcss-server-file)
   "check if server is installed")
 
-(defun lsp-tailwindcss--callback (workspace &rest _)
-  (message "lsp-tailwindcss callback %s" workspace))
+(defun lsp-tailwindcss--callback (workspace &rest args)
+  (message "lsp-tailwindcss callback %s: %s" workspace args))
 
 (defun lsp-tailwindcss--install-server (client callback error-callback update?)
-  (if (and (not udpate?) lsp-tailwindcss-server-installed-p)
+  (if (and (not update?) lsp-tailwindcss-server-installed-p)
       (lsp--info "tailwindcss language server already installed.")
-    (let ((remote lsp-tailwindcss-server-remote)
-          (local lsp-tailwindcss-server-dir)
-          (call #'lsp-tailwindcss--call-process))
+    (let ((tempfile (make-temp-file "ext" nil ".zip")))
       (lsp--info "installing tailwindcss language server, please wait.")
-      (funcall call "git" "clone" remote local)
-      (lsp--info "building tailwindcss lsp server.")
-      (let ((default-directory local))
-        (funcall call "npm" "install")
-        (funcall call "npm" "run" "build")
-        (lsp--info "tailwindcss language server installed.")))))
+      (delete-file tempfile)
+      (lsp-download-install
+       (lambda (&rest _)
+         (condition-case err
+             (progn
+               (lsp-unzip tempfile lsp-tailwindcss-server-dir)
+               (funcall callback))
+           (error (funcall error-callback err))))
+       error-callback
+       :url (lsp-vscode-extension-url "bradlc" "vscode-tailwindcss" "0.5.6")
+       :store-path tempfile))))
 
 (defun lsp-tailwindcss--call-process (command &rest args)
   (with-temp-buffer
@@ -73,15 +71,20 @@
               -1)
           (string-trim (buffer-string)))))
 
+(defun lsp-tailwindcss--configuration (workspace args)
+  (let ((id (gethash "_id" args)))
+    (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
+
 (lsp-register-client
  (make-lsp-client
   :new-connection (lsp-stdio-connection
                    (list "node" lsp-tailwindcss-server-file "--stdio")
                    (lambda () (f-exists? lsp-tailwindcss-server-file)))
-  :major-modes '(web-mode css-mode html-mode)
+  :major-modes '(web-mode css-mode html-mode rjsx-mode)
   :server-id 'tailwindcss
   :priority -1
-  :notification-handlers (lsp-ht ("tailwindcss/configUpdated" 'lsp-tailwindcss--callback))
+  :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
+                             ("tailwindcss/getConfiguration" #'lsp-tailwindcss--configuration))
   :download-server-fn (lambda (client callback error-callback update?)
                         (when lsp-tailwindcss-auto-install-server
                           (lsp-tailwindcss--install-server client callback error-callback update?)))))
