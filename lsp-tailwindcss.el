@@ -80,7 +80,7 @@
   :new-connection (lsp-stdio-connection
                    (list "node" lsp-tailwindcss-server-file "--stdio")
                    (lambda () (f-exists? lsp-tailwindcss-server-file)))
-  :major-modes '(web-mode css-mode html-mode)
+  :major-modes '(web-mode css-mode html-mode rjsx-mode)
   :server-id 'tailwindcss
   :priority -1
   :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
