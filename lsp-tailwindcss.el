@@ -41,9 +41,21 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
+(defcustom lsp-tailwindcss-server-version "0.5.6"
+  "specify the version of tailwindcss intellisence"
+  :type 'string
+  :group 'lsp-tailwindcss)
+
 (defvar lsp-tailwindcss-server-installed-p
   (file-exists-p lsp-tailwindcss-server-file)
   "check if server is installed")
+
+(defvar-local vscode-tailwindcss-version "0.5.6")
+
+(defun lsp-tailwindcss--download-url ()
+  (let ((version lsp-tailwindcss-server-version))
+    (format "https://github.com/tailwindlabs/tailwindcss-intellisense/releases/download/v%s/vscode-tailwindcss-%s.vsix"
+            version version)))
 
 (defun lsp-tailwindcss--callback (workspace &rest args)
   (message "lsp-tailwindcss callback %s: %s" workspace args))
@@ -62,7 +74,7 @@
                (funcall callback))
            (error (funcall error-callback err))))
        error-callback
-       :url (lsp-vscode-extension-url "bradlc" "vscode-tailwindcss" "0.5.6")
+       :url (lsp-tailwindcss--download-url)
        :store-path tempfile))))
 
 (defun lsp-tailwindcss--call-process (command &rest args)
