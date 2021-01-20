@@ -81,12 +81,6 @@
        :url (lsp-tailwindcss--download-url)
        :store-path tempfile))))
 
-(defun lsp-tailwindcss--call-process (command &rest args)
-  (with-temp-buffer
-    (cons (or (apply #'call-process command nil t nil (remq nil args))
-              -1)
-          (string-trim (buffer-string)))))
-
 (defun lsp-tailwindcss--configuration (workspace args)
   (let ((id (gethash "_id" args)))
     (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
