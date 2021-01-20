@@ -1,2 +1,38 @@
-# lsp-tailwindcss
-the lsp-mode client for tailwindcss
+* lsp-tailwindcss
+The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, using language server from [[https://github.com/tailwindlabs/tailwindcss-intellisense][official vscode plugin]].
+
+* Installation
+*** Doom Emacs
+in ~package.el~
+#+begin_src emacs-lisp
+(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+#+end_src
+
+in ~config.el~
+#+begin_src emacs-lisp
+(use-package! lsp-tailwindcss)
+#+end_src
+
+*** straight.el
+#+begin_src emacs-lisp
+(straight-use-package
+ '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
+#+end_src
+
+* Customization
+Note: if you want to customize those variables with use-package, do it in the :init block.
+
+** lsp-tailwindcss-server-dir
+Where the server files are downloaded to, defaults to lsp-server-install-dir/tailwindcss
+
+** lsp-tailwindcss-server-file
+Where to find the server's index.js, defaults to lsp-tailwindcss-server-dir/extention/dist/server/index.js
+
+** lsp-tailwindcss-auto-install-server
+Specify that lsp-tailwindcss can be installed with ~(lsp-install-server)~
+
+** lsp-tailwindcss-server-version
+Specify the langauge server version, it will always defaults to the newest stable release.
+
+** lsp-tailwindcss-add-on-mode
+Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]]
