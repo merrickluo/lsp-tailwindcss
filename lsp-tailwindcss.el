@@ -41,7 +41,7 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-version "0.5.6"
+(defcustom lsp-tailwindcss-server-version "0.5.7"
   "specify the version of tailwindcss intellisence"
   :type 'string
   :group 'lsp-tailwindcss)
