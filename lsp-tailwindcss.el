@@ -36,31 +36,33 @@
   :group 'lsp-mode)
 
 (defcustom lsp-tailwindcss-server-dir (expand-file-name "tailwindcss" lsp-server-install-dir)
-  "local directory for tailwindcss/intellisense"
+  "Local directory for tailwindcss-intellisense."
   :type 'string
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/index.js" lsp-tailwindcss-server-dir)
-  "index.js file location of tailwindcss-intellisense, do not change it if use builtin install methods"
+  "The index.js file location of tailwindcss-intellisense, do not change when auto install."
   :type 'string
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-auto-install-server t
-  "install tailwindcss language server automatically"
+  "Install tailwindcss language server automatically."
   :type 'boolean
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-server-version "0.5.7"
-  "specify the version of tailwindcss intellisence"
+  "Specify the version of tailwindcss intellisence."
   :type 'string
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-add-on-mode nil
-  "specify lsp-tailwindcss as add-on so it can work with other langauge servers")
+  "Specify lsp-tailwindcss as add-on so it can work with other langauge servers."
+  :type 'boolean
+  :group 'lsp-tailwindcss)
 
 (defvar lsp-tailwindcss-server-installed-p
   (file-exists-p lsp-tailwindcss-server-file)
-  "check if server is installed")
+  "Check if server is installed.")
 
 (defun lsp-tailwindcss--download-url ()
   (let ((version lsp-tailwindcss-server-version))
