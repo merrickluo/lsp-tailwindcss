@@ -61,7 +61,8 @@
             version version)))
 
 (defun lsp-tailwindcss--callback (workspace &rest args)
-  (message "lsp-tailwindcss callback %s: %s" workspace args))
+  ;; no action needed right now
+  )
 
 (defun lsp-tailwindcss--install-server (client callback error-callback update?)
   (if (and (not update?) lsp-tailwindcss-server-installed-p)
