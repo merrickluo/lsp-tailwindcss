@@ -1,6 +1,7 @@
 * lsp-tailwindcss
 The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, using language server from [[https://github.com/tailwindlabs/tailwindcss-intellisense][official vscode plugin]].
 
+[[file:images/autocomplete.png][autocomplete]]
 * Installation
 *** Doom Emacs
 in ~package.el~
