@@ -46,6 +46,9 @@
   :type 'string
   :group 'lsp-tailwindcss)
 
+(defcustom lsp-tailwindcss-add-on-mode nil
+  "specify lsp-tailwindcss as add-on so it can work with other langauge servers")
+
 (defvar lsp-tailwindcss-server-installed-p
   (file-exists-p lsp-tailwindcss-server-file)
   "check if server is installed")
@@ -95,6 +98,7 @@
   :major-modes '(web-mode css-mode html-mode rjsx-mode)
   :server-id 'tailwindcss
   :priority -1
+  :add-on? lsp-tailwindcss-add-on-mode
   :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
                              ("tailwindcss/getConfiguration" #'lsp-tailwindcss--configuration))
   :download-server-fn (lambda (client callback error-callback update?)
