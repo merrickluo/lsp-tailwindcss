@@ -56,7 +56,7 @@
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-add-on-mode nil
-  "Specify lsp-tailwindcss as add-on so it can work with other langauge servers."
+  "Specify lsp-tailwindcss as add-on so it can work with other language servers."
   :type 'boolean
   :group 'lsp-tailwindcss)
 
