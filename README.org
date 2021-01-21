@@ -28,13 +28,13 @@ Note: if you want to customize those variables with use-package, do it in the :i
 Where the server files are downloaded to, defaults to lsp-server-install-dir/tailwindcss
 
 ** lsp-tailwindcss-server-file
-Where to find the server's index.js, defaults to lsp-tailwindcss-server-dir/extention/dist/server/index.js
+Where to find the server's index.js, defaults to lsp-tailwindcss-server-dir/extension/dist/server/index.js
 
 ** lsp-tailwindcss-auto-install-server
 Specify that lsp-tailwindcss can be installed with ~(lsp-install-server)~
 
 ** lsp-tailwindcss-server-version
-Specify the langauge server version, it will always defaults to the newest stable release.
+Specify the language server version, it will always defaults to the newest stable release.
 
 ** lsp-tailwindcss-add-on-mode
 Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]]
