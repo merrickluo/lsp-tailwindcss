@@ -65,15 +65,19 @@
   "Check if server is installed.")
 
 (defun lsp-tailwindcss--download-url ()
+  "Build langauge server download url from version."
   (let ((version lsp-tailwindcss-server-version))
     (format "https://github.com/tailwindlabs/tailwindcss-intellisense/releases/download/v%s/vscode-tailwindcss-%s.vsix"
             version version)))
 
 (defun lsp-tailwindcss--callback (_workspace &rest _args)
-  ;; no action needed right now
-  )
+  "No action needed right now.")
 
 (defun lsp-tailwindcss--install-server (_client callback error-callback update?)
+  "Install tailwindcss langauge server.
+Required argument CALLBACK callback after install successfully.
+Required argument ERROR-CALLBACK callback when error occurs during installation.
+Required argument UPDATE? Indicates if this is called for update."
   (if (and (not update?) lsp-tailwindcss-server-installed-p)
       (lsp--info "tailwindcss language server already installed.")
     (let ((tempfile (make-temp-file "ext" nil ".zip")))
@@ -91,6 +95,8 @@
        :store-path tempfile))))
 
 (defun lsp-tailwindcss--configuration (_workspace args)
+  "Respond to langauge server with empty configuration.
+Required argument ARGS Arguments from the language server."
   (let ((id (gethash "_id" args)))
     (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
 
