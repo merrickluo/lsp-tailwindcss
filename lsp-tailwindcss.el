@@ -109,6 +109,15 @@ Required argument ARGS Arguments from the language server."
   :server-id 'tailwindcss
   :priority -1
   :add-on? lsp-tailwindcss-add-on-mode
+  :initialized-fn (lambda (w)
+                    (with-lsp-workspace w
+                      (let* ((caps (lsp--workspace-server-capabilities w))
+                             (comp (lsp:server-capabilities-completion-provider? caps))
+                             (trigger-chars (append (lsp:completion-options-trigger-characters? comp) nil)))
+                        (lsp:set-completion-options-trigger-characters?
+                         comp
+                         (vconcat
+                          (cl-pushnew "-" trigger-chars :test #'string=))))))
   :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
                              ("tailwindcss/getConfiguration" #'lsp-tailwindcss--configuration))
   :download-server-fn (lambda (client callback error-callback update?)
