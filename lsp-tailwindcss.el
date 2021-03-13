@@ -105,7 +105,9 @@ Required argument ARGS Arguments from the language server."
   :new-connection (lsp-stdio-connection
                    (list "node" lsp-tailwindcss-server-file "--stdio")
                    (lambda () (f-exists? lsp-tailwindcss-server-file)))
-  :major-modes '(web-mode css-mode html-mode rjsx-mode)
+  :activation-fn (lambda (&rest _args)
+                   (and (lsp-workspace-root)
+                        (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))))
   :server-id 'tailwindcss
   :priority -1
   :add-on? lsp-tailwindcss-add-on-mode
