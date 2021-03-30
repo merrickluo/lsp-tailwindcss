@@ -100,14 +100,17 @@ Required argument ARGS Arguments from the language server."
   (let ((id (gethash "_id" args)))
     (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
 
+(defun lsp-tailwindcss--should-start (&rest _args)
+  (and (lsp-workspace-root)
+       (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
+           (locate-dominating-file (buffer-file-name) "tailwind.config.js"))))
+
 (lsp-register-client
  (make-lsp-client
   :new-connection (lsp-stdio-connection
                    (list "node" lsp-tailwindcss-server-file "--stdio")
                    (lambda () (f-exists? lsp-tailwindcss-server-file)))
-  :activation-fn (lambda (&rest _args)
-                   (and (lsp-workspace-root)
-                        (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))))
+  :activation-fn #'lsp-tailwindcss--should-start
   :server-id 'tailwindcss
   :priority -1
   :add-on? lsp-tailwindcss-add-on-mode
