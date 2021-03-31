@@ -5,7 +5,7 @@ The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, 
 
 * Installation
 *** Doom Emacs
-in ~package.el~
+in ~packages.el~
 #+begin_src emacs-lisp
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
