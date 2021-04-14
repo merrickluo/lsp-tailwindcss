@@ -24,6 +24,9 @@ in ~config.el~
  '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
 
+** Update
+To reinstall server after update ~lsp-tailwindcss-server-version~, use ~C-u lsp-install-server~
+
 * Customization
 Note: if you want to customize those variables with use-package, do it in the :init block.
 
