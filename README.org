@@ -1,4 +1,4 @@
-[[file:https:/melpa.org/packages/lsp-tailwindcss-badge.svg][https://melpa.org/#/lsp-tailwindcss]]
+[[https://melpa.org/#/lsp-tailwindcss][file:https://melpa.org/packages/lsp-tailwindcss-badge.svg]]
 
 * lsp-tailwindcss
 
