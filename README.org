@@ -1,4 +1,7 @@
+[[https://melpa.org/#/lsp-tailwindcss][file:https://melpa.org/packages/lsp-tailwindcss-badge.svg]]
+
 * lsp-tailwindcss
+
 The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, using language server from [[https://github.com/tailwindlabs/tailwindcss-intellisense][official vscode plugin]].
 
 [[file:images/autocomplete.png]]
@@ -20,6 +23,9 @@ in ~config.el~
 (straight-use-package
  '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
+
+** Update
+To reinstall server after update ~lsp-tailwindcss-server-version~, use ~C-u lsp-install-server~
 
 * Customization
 Note: if you want to customize those variables with use-package, do it in the :init block.
