@@ -103,6 +103,7 @@ Required argument ARGS Arguments from the language server."
 (defun lsp-tailwindcss--should-start (&rest _args)
   (and (lsp-workspace-root)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
+           (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
            (locate-dominating-file (buffer-file-name) "tailwind.config.js"))))
 
 (lsp-register-client
