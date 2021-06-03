@@ -50,7 +50,7 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-version "0.6.1"
+(defcustom lsp-tailwindcss-server-version "0.6.6"
   "Specify the version of tailwindcss intellisence."
   :type 'string
   :group 'lsp-tailwindcss)
@@ -97,8 +97,13 @@ Required argument UPDATE? Indicates if this is called for update."
 (defun lsp-tailwindcss--configuration (_workspace args)
   "Respond to langauge server with empty configuration.
 Required argument ARGS Arguments from the language server."
-  (let ((id (gethash "_id" args)))
-    (lsp-request "tailwindcss/getConfigurationResponse" `(:_id ,id) :no-wait t)))
+  (ht-merge
+   (lsp-configuration-section "tailwindcss")
+   (ht ("editor.tabSize" (symbol-value (lsp--get-indent-width major-mode))))))
+
+(defun lsp-tailwindcss--initialization-options ()
+  (ht ("configuration" (lsp-configuration-section "tailwindcss"))
+      ("userLanguages" (ht))))
 
 (defun lsp-tailwindcss--should-start (&rest _args)
   (and (lsp-workspace-root)
@@ -115,6 +120,7 @@ Required argument ARGS Arguments from the language server."
   :server-id 'tailwindcss
   :priority -1
   :add-on? lsp-tailwindcss-add-on-mode
+  :initialization-options #'lsp-tailwindcss--initialization-options
   :initialized-fn (lambda (w)
                     (with-lsp-workspace w
                       (let* ((caps (lsp--workspace-server-capabilities w))
