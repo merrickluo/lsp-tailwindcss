@@ -40,7 +40,7 @@
   :type 'string
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/index.js" lsp-tailwindcss-server-dir)
+(defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/tailwindServer.js" lsp-tailwindcss-server-dir)
   "The index.js file location of tailwindcss-intellisense, do not change when auto install."
   :type 'string
   :group 'lsp-tailwindcss)
