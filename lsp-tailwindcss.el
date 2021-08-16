@@ -4,7 +4,7 @@
 
 ;; Author: A.I. <merrick@luois.me>
 ;; Keywords: language tools
-;; Version: 0.1
+;; Version: 0.2
 ;; Package-Requires: ((lsp-mode "3.0") (emacs "24.3"))
 ;; Keywords: tailwindcss
 ;; URL: https://github.com/merrickluo/lsp-tailwindcss
@@ -60,6 +60,12 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
+(defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode)
+  "Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them."
+  :type 'list
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
 (defvar lsp-tailwindcss-server-installed-p
   (file-exists-p lsp-tailwindcss-server-file)
   "Check if server is installed.")
@@ -109,7 +115,8 @@ Required argument ARGS Arguments from the language server."
   (and (lsp-workspace-root)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
-           (locate-dominating-file (buffer-file-name) "tailwind.config.js"))))
+           (locate-dominating-file (buffer-file-name) "tailwind.config.js"))
+       (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)))
 
 (lsp-register-client
  (make-lsp-client
