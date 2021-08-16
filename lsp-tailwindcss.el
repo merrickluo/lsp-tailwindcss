@@ -66,6 +66,12 @@
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
+(lsp-dependency 'tailwindcss-language-server
+                '(:system "tailwindcss-language-server")
+                '(:npm
+                  :package "@tailwindcss/language-server"
+                  :path "tailwindcss-language-server"))
+
 (defvar lsp-tailwindcss-server-installed-p
   (file-exists-p lsp-tailwindcss-server-file)
   "Check if server is installed.")
@@ -111,7 +117,7 @@ Required argument ARGS Arguments from the language server."
   (ht ("configuration" (lsp-configuration-section "tailwindcss"))
       ("userLanguages" (ht))))
 
-(defun lsp-tailwindcss--should-start (&rest _args)
+(defun lsp-tailwindcss--activate-p (&rest _args)
   (and (lsp-workspace-root)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
@@ -121,9 +127,9 @@ Required argument ARGS Arguments from the language server."
 (lsp-register-client
  (make-lsp-client
   :new-connection (lsp-stdio-connection
-                   (list "node" lsp-tailwindcss-server-file "--stdio")
-                   (lambda () (f-exists? lsp-tailwindcss-server-file)))
-  :activation-fn #'lsp-tailwindcss--should-start
+                   (lambda ()
+                     `(,(lsp-package-path 'tailwindcss-language-server) "--stdio")))
+  :activation-fn #'lsp-tailwindcss--activate-p
   :server-id 'tailwindcss
   :priority -1
   :add-on? lsp-tailwindcss-add-on-mode
@@ -137,11 +143,9 @@ Required argument ARGS Arguments from the language server."
                          comp
                          (vconcat
                           (cl-pushnew "-" trigger-chars :test #'string=))))))
-  :notification-handlers (ht ("tailwindcss/configUpdated" #'lsp-tailwindcss--callback)
-                             ("tailwindcss/getConfiguration" #'lsp-tailwindcss--configuration))
-  :download-server-fn (lambda (client callback error-callback update?)
+  :download-server-fn (lambda (_client callback error-callback _update?)
                         (when lsp-tailwindcss-auto-install-server
-                          (lsp-tailwindcss--install-server client callback error-callback update?)))))
+                          (lsp-package-ensure 'tailwindcss-language-server callback error-callback)))))
 
 (provide 'lsp-tailwindcss)
 ;;; lsp-tailwindcss.el ends here
