@@ -31,16 +31,24 @@ To reinstall server after update ~lsp-tailwindcss-server-version~, use ~C-u lsp-
 Note: if you want to customize those variables with use-package, do it in the :init block.
 
 ** lsp-tailwindcss-server-dir
-Where the server files are downloaded to, defaults to lsp-server-install-dir/tailwindcss
+Where the server files are downloaded to.
+default: =lsp-server-install-dir/tailwindcss=
 
 ** lsp-tailwindcss-server-file
-Where to find the server's index.js, defaults to lsp-tailwindcss-server-dir/extension/dist/server/index.js
+Where to find the server's index.js.
+default: =lsp-tailwindcss-server-dir/extension/dist/server/index.js=
 
 ** lsp-tailwindcss-auto-install-server
 Specify that lsp-tailwindcss can be installed with ~(lsp-install-server)~
+default: =t=
 
 ** lsp-tailwindcss-server-version
 Specify the language server version, it will always defaults to the newest stable release.
 
 ** lsp-tailwindcss-add-on-mode
 Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]]
+default: =nil=
+
+** lsp-tailwindcss-major-modes (since 0.2)
+Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them.
+default: ='(rjsx-mode web-mode html-mode css-mode)=
