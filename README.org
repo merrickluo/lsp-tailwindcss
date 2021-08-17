@@ -27,11 +27,11 @@ in ~config.el~
 ** Language Server
 *** Installation
 1. use =M-x lsp-install-server=, then select =tailwindcss=.
-2. use =npm=, =npm install -g @tailwindcss/language-server=
+2. use =npm=, =npm install -g @tailwindcss/language-server=.
 
 *** Update
 1. use =C-u M-x lsp-install-server=, then select =tailwindcss=.
-2. use =npm=, =npm install -g @tailwindcss/language-server=
+2. use =npm=, =npm install -g @tailwindcss/language-server=.
 
 * Changelog
 ** 0.2
@@ -47,14 +47,14 @@ in ~config.el~
 ** lsp-tailwindcss
 *** =lsp-tailwindcss-add-on-mode=
 Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]] This must be set before the package loads.
-default: =nil=
+default: =nil=.
 
 *** =lsp-tailwindcss-major-modes= (since 0.2)
 Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them.
-default: =rjsx-mode web-mode html-mode css-mode=
+default: =rjsx-mode web-mode html-mode css-mode=.
 
 ** tailwindcss-language-server
-All settings described in [[https://github.com/tailwindlabs/tailwindcss-intellisense#extension-settings][tailwindcss-intellisense]] except
+All settings described in [[https://github.com/tailwindlabs/tailwindcss-intellisense#extension-settings][tailwindcss-intellisense]] except:
 + =tailwindCSS.includeLanguages=
   The activation of the language server is controlled by =lsp-tailwindcss--activate-p=, so this is not needed.
 
@@ -65,7 +65,7 @@ Default value follows the default value in the documentation.
 
 *** Global Configuration
 Custom variable naming convention:
-=tailwindCSS.emmetCompletions= => =lsp-tailwindcss-emmet-completions=
+=tailwindCSS.emmetCompletions= => =lsp-tailwindcss-emmet-completions=.
 
 *** Workspace Configuration
 The global configuration can be override by setting the buffer-local variable =lsp-tailwindcss-workspace-configuration=.
