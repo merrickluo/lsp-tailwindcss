@@ -53,7 +53,7 @@
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
-(defcustom lsp-tailwindcss-show-pixel-equivalents nil
+(defcustom lsp-tailwindcss-show-pixel-equivalents t
   "Show px equivalents for rem CSS values in completions and hovers."
   :type 'boolean
   :group 'lsp-tailwindcss
