@@ -5,7 +5,7 @@
 ;; Author: A.I. <merrick@luois.me>
 ;; Keywords: language tools
 ;; Version: 0.2
-;; Package-Requires: ((lsp-mode "7.1") (emacs "24.3"))
+;; Package-Requires: ((lsp-mode "7.1") (emacs "26.1"))
 ;; Keywords: tailwindcss
 ;; URL: https://github.com/merrickluo/lsp-tailwindcss
 
