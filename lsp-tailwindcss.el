@@ -46,6 +46,111 @@
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
+;;; Language server global settings:
+(defcustom lsp-tailwindcss-emmet-completions nil
+  "Enable completions when using Emmet-style syntax, for example div.bg-red-500.uppercase."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-show-pixel-equivalents nil
+  "Show px equivalents for rem CSS values in completions and hovers."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-root-font-size 16
+ "Root font size in pixels. Used to convert rem CSS values to their px equivalents.
+see `lsp-tailwindcss-show-pixel-equivalents'"
+  :type 'number
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-validate t
+  "Enable linting. Rules can be configured individually using the lsp-tailwindcss-lint-* settings:
+    ignore: disable lint rule entirely
+    warning: rule violations will be considered \"warnings\", typically represented by a yellow underline
+    error: rule violations will be considered \"errors\", typically represented by a red underline."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-invalid-screen "error"
+  "Unknown screen name used with the @screen directive."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-invalid-variant "error"
+  "Unknown variant name used with the @variants directive."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-invalid-tailwind-directive "error"
+  "Unknown value used with the @tailwind directive."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-invalid-apply "error"
+  "Unsupported use of the @apply directive."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-invalid-config-path "error"
+  "Unknown or invalid path used with the theme helper."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-css-conflict "warning"
+  "Class names on the same HTML element which apply the same CSS property or properties."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-lint-recommended-variant-order "warning"
+  "Class variants not in the recommended order (applies in JIT mode only)."
+  :type '(choice (const "ignore")
+                 (const "warning")
+                 (const "error"))
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-inspect-port nil
+  "Enable the Node.js inspector agent for the language server and listen on the specified port."
+  :type 'number
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.2"))
+
+(lsp-register-custom-settings
+ '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
+   ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
+   ("tailwindCSS.rootFontSize" lsp-tailwindcss-root-font-size)
+   ("tailwindCSS.validate" lsp-tailwindcss-validate t)
+   ("tailwindCSS.lint.invalidScreen" lsp-tailwindcss-lint-invalid-screen)
+   ("tailwindCSS.lint.invalidVariant" lsp-tailwindcss-lint-invalid-variant)
+   ("tailwindCSS.lint.invalidTailwindDirective" lsp-tailwindcss-lint-invalid-tailwind-directive)
+   ("tailwindCSS.lint.invalidApply" lsp-tailwindcss-lint-invalid-apply)
+   ("tailwindCSS.lint.invalidConfigPath" lsp-tailwindcss-lint-invalid-config-path)
+   ("tailwindCSS.lint.cssConflict" lsp-tailwindcss-lint-css-conflict)
+   ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
+   ("tailwindCSS.inspectPort" lsp-tailwindcss-inspect-port)))
+;;; Language server global settings ends here
 (lsp-dependency 'tailwindcss-language-server
                 '(:system "tailwindcss-language-server")
                 '(:npm
