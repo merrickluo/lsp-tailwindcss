@@ -172,6 +172,8 @@ The tailwindCSS. is ommited, example setting it in .dir-locals.el:
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)))
 
 (defun lsp-tailwindcss--company-dash-hack (w)
+  "Append - to the lsp completion-trigger-characters,
+workaround the problem that company-mode completion not work when typing \"-\" in classname."
   (with-lsp-workspace w
     (let* ((caps (lsp--workspace-server-capabilities w))
            (comp (lsp:server-capabilities-completion-provider? caps))
@@ -209,6 +211,7 @@ append `lsp-tailwindcss-workspace-configuration' to the tailwindCSS section."
        (apply #'vector)))
 
 (defun lsp-tailwindcss--initialization-options ()
+  "tailwindcss-language-server requires configuration not be null."
   (ht ("configuration" (lsp-configuration-section "tailwindcss"))))
 
 (lsp-register-client
