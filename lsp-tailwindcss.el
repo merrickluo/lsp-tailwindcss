@@ -156,6 +156,8 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   "Alist of (SECTION . VALUE) entries overrides the global settings.
 The tailwindCSS. is ommited, example setting it in .dir-locals.el:
 `((web-mode . ((\"rootFontSize\" . 18))))'")
+
+;;;###autoload
 (put 'lsp-tailwindcss-workspace-configuration 'safe-local-variable 'listp)
 
 (lsp-dependency 'tailwindcss-language-server
