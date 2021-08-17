@@ -49,7 +49,7 @@ default: =nil=
 
 *** =lsp-tailwindcss-major-modes= (since 0.2)
 Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them.
-default: ='(rjsx-mode web-mode html-mode css-mode)=
+default: =rjsx-mode web-mode html-mode css-mode=
 
 ** tailwindcss-language-server
 All settings described in [[https://github.com/tailwindlabs/tailwindcss-intellisense#extension-settings][tailwindcss-intellisense]] except
@@ -70,7 +70,7 @@ The global configuration can be override by setting the buffer-local variable =l
 
 For example, by adding a =.dir-locals.el= in project root with following content:
 #+begin_src emacs-lisp
-((nil . ((lsp-tailwindcss-workspace-configuration . (("rootFontSize" . 100))))))=
+((nil . ((lsp-tailwindcss-workspace-configuration . (("rootFontSize" . 100))))))
 #+end_src
 
 Overrides the global customize variable =lsp-tailwindcss-root-font-size=.
