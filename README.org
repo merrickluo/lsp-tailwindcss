@@ -35,11 +35,11 @@ Run =C-u lsp-install-server=, then select =tailwindcss=
 ** 0.2
 *** breaking changes
 + now uses [[https://www.npmjs.com/package/@tailwindcss/language-server][tailwindcss language server]] instead of manually download the vscode extension file.
-+ removed variables =lsp-tailwindcss-server-dir=, =lsp-tailwindcss-server-file=, =lsp-tailwindcss-auto-install-server=, =lsp-tailwindcss-server-version=
 
 *** major changes
-+ added =lsp-tailwindcss-major-modes=, see details in #Customization section
-+ allow global and workspace configuration for tailwindcss-language-server
++ added =lsp-tailwindcss-major-modes=, see details in #Customization section.
++ allow global and workspace configuration for tailwindcss-language-server.
++ make variables =lsp-tailwindcss-server-dir=, =lsp-tailwindcss-server-file=, =lsp-tailwindcss-auto-install-server=, =lsp-tailwindcss-server-version= obsolete.
 
 * Customization
 ** lsp-tailwindcss

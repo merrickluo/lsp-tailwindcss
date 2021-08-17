@@ -40,6 +40,30 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
+(defcustom lsp-tailwindcss-server-dir (expand-file-name "tailwindcss" lsp-server-install-dir)
+  "Local directory for tailwindcss-intellisense."
+  :type 'string
+  :group 'lsp-tailwindcss)
+(make-obsolete-variable 'lsp-tailwindcss-server-dir "Not used anymore." "0.2")
+
+(defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/tailwindServer.js" lsp-tailwindcss-server-dir)
+  "The index.js file location of tailwindcss-intellisense, do not change when auto install."
+  :type 'string
+  :group 'lsp-tailwindcss)
+(make-obsolete-variable 'lsp-tailwindcss-server-file "Not used anymore." "0.2")
+
+(defcustom lsp-tailwindcss-auto-install-server t
+  "Install tailwindcss language server automatically."
+  :type 'boolean
+  :group 'lsp-tailwindcss)
+(make-obsolete-variable 'lsp-tailwindcss-auto-install-server "Not used anymore." "0.2")
+
+(defcustom lsp-tailwindcss-server-version "0.6.13"
+  "Specify the version of tailwindcss intellisence."
+  :type 'string
+  :group 'lsp-tailwindcss)
+(make-obsolete-variable 'lsp-tailwindcss-server-version "Not used anymore." "0.2")
+
 (defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode)
   "Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them."
   :type 'list
@@ -229,8 +253,7 @@ append `lsp-tailwindcss-workspace-configuration' to the tailwindCSS section."
   :initialized-fn #'lsp-tailwindcss--company-dash-hack
   :request-handlers (ht ("workspace/configuration" #'lsp-tailwindcss--workspace-configuration))
   :download-server-fn (lambda (_client callback error-callback _update?)
-                        (when lsp-tailwindcss-auto-install-server
-                          (lsp-package-ensure 'tailwindcss-language-server callback error-callback)))))
+                        (lsp-package-ensure 'tailwindcss-language-server callback error-callback))))
 
 (provide 'lsp-tailwindcss)
 ;;; lsp-tailwindcss.el ends here
