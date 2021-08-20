@@ -155,12 +155,6 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
-(defcustom lsp-tailwindcss-inspect-port nil
-  "Enable the Node.js inspector agent for the language server and listen on the specified port."
-  :type 'number
-  :group 'lsp-tailwindcss
-  :package-version '(lsp-tailwindcss . "0.2"))
-
 (lsp-register-custom-settings
  '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
@@ -172,8 +166,7 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
    ("tailwindCSS.lint.invalidApply" lsp-tailwindcss-lint-invalid-apply)
    ("tailwindCSS.lint.invalidConfigPath" lsp-tailwindcss-lint-invalid-config-path)
    ("tailwindCSS.lint.cssConflict" lsp-tailwindcss-lint-css-conflict)
-   ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
-   ("tailwindCSS.inspectPort" lsp-tailwindcss-inspect-port)))
+   ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)))
 ;;; Language server global settings ends here
 
 (defvar-local lsp-tailwindcss-workspace-configuration ()
