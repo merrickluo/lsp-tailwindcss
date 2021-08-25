@@ -70,6 +70,42 @@
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
+(defcustom lsp-tailwindcss-rustywind-command (executable-find "rustywind")
+  "[Experimental] Command use for sort the tailwindcss classes."
+  :type 'string
+  :group 'lsp-tailwindcss)
+
+(defun lsp-tailwindcss-rustywind ()
+  "[Experimental] Sort tailwindcss class name using rustywind.
+This is an *experimental* feature, please be careful when use."
+  (interactive)
+  (if (f-executable-p lsp-tailwindcss-rustywind-command)
+    (let ((tmpfile (make-nearby-temp-file "rustywind" nil nil))
+          (coding-system-for-read 'utf-8)
+          (coding-system-for-write 'utf-8))
+
+      (unwind-protect
+          (save-restriction
+            (widen)
+            (write-region nil nil tmpfile)
+
+            (let ((rustywind-args (list "--write" (file-local-name tmpfile))))
+              (when (zerop (apply #'process-file lsp-tailwindcss-rustywind-command nil nil nil rustywind-args))
+                (insert-file-contents tmpfile nil nil nil t))))
+
+        (delete-file tmpfile)))
+    (error (format "Can't find rustywind executable at %s" lsp-tailwindcss-rustywind-command))))
+
+(defun lsp-tailwindcss-rustywind-before-save()
+  "[Experimental] Add this to `before-save-hook' to run rustywind when saving buffer.
+(add-hook 'before-save-hook #'lsp-tailwindcss-rustywind-before-save).
+
+It only runs when lsp-tailwindcss can be activated determined by `lsp-tailwindcss--activate-p'.
+This is an *experimental* feature, please be careful when use.
+"
+  (when (lsp-tailwindcss--activate-p)
+    (lsp-tailwindcss-rustywind)))
+
 ;;; Language server global settings:
 (defcustom lsp-tailwindcss-emmet-completions nil
   "Enable completions when using Emmet-style syntax, for example div.bg-red-500.uppercase."
