@@ -79,7 +79,8 @@
   "[Experimental] Sort tailwindcss class name using rustywind.
 This is an *experimental* feature, please be careful when use."
   (interactive)
-  (if (f-executable-p lsp-tailwindcss-rustywind-command)
+  (if (and lsp-tailwindcss-rustywind-command
+           (f-executable-p lsp-tailwindcss-rustywind-command))
     (let ((tmpfile (make-nearby-temp-file "rustywind" nil nil))
           (coding-system-for-read 'utf-8)
           (coding-system-for-write 'utf-8))
