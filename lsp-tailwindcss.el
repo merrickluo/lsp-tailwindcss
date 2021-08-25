@@ -169,14 +169,6 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
    ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)))
 ;;; Language server global settings ends here
 
-(defvar-local lsp-tailwindcss-workspace-configuration ()
-  "Alist of (SECTION . VALUE) entries overrides the global settings.
-The tailwindCSS. is ommited, example setting it in .dir-locals.el:
-`((web-mode . ((\"rootFontSize\" . 18))))'")
-
-;;;###autoload
-(put 'lsp-tailwindcss-workspace-configuration 'safe-local-variable 'listp)
-
 (lsp-dependency 'tailwindcss-language-server
                 '(:system "tailwindcss-language-server")
                 '(:npm
@@ -202,33 +194,6 @@ workaround the problem that company-mode completion not work when typing \"-\" i
        (vconcat
         (cl-pushnew "-" trigger-chars :test #'string=))))))
 
-(lsp-defun lsp-tailwindcss--workspace-configuration (workspace (&ConfigurationParams :items))
-  "Override default workspace configuration response,
-append `lsp-tailwindcss-workspace-configuration' to the tailwindCSS section."
-  (->> items
-       (-map (-lambda ((&ConfigurationItem :section?))
-               (-let* ((path-parts (split-string section? "\\."))
-                       (path-without-last (s-join "." (-slice path-parts 0 -1)))
-                       (path-parts-len (length path-parts)))
-                 (cond
-                  ((string= section? "tailwindCSS")
-                   (ht-merge
-                    (ht-get (lsp-configuration-section section?)
-                            (car-safe path-parts)
-                            (ht-create))
-                    (ht<-alist lsp-tailwindcss-workspace-configuration)))
-                  ((<= path-parts-len 1)
-                   (ht-get (lsp-configuration-section section?)
-                           (car-safe path-parts)
-                           (ht-create)))
-                  ((> path-parts-len 1)
-                   (when-let ((section (lsp-configuration-section path-without-last))
-                              (keys path-parts))
-                     (while (and keys section)
-                       (setf section (ht-get section (pop keys))))
-                     section))))))
-       (apply #'vector)))
-
 (defun lsp-tailwindcss--initialization-options ()
   "tailwindcss-language-server requires configuration not be null."
   (ht ("configuration" (lsp-configuration-section "tailwindcss"))))
@@ -244,7 +209,6 @@ append `lsp-tailwindcss-workspace-configuration' to the tailwindCSS section."
   :add-on? lsp-tailwindcss-add-on-mode
   :initialization-options #'lsp-tailwindcss--initialization-options
   :initialized-fn #'lsp-tailwindcss--company-dash-hack
-  :request-handlers (ht ("workspace/configuration" #'lsp-tailwindcss--workspace-configuration))
   :download-server-fn (lambda (_client callback error-callback _update?)
                         (lsp-package-ensure 'tailwindcss-language-server callback error-callback))))
 
