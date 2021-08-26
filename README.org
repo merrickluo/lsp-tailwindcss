@@ -7,7 +7,7 @@ The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, 
 [[file:images/autocomplete.png]]
 
 * Installation
-*** Doom Emacs
+** Doom Emacs
 in ~packages.el~
 #+begin_src emacs-lisp
 (package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
@@ -18,29 +18,61 @@ in ~config.el~
 (use-package! lsp-tailwindcss)
 #+end_src
 
-*** straight.el
+** straight.el
 #+begin_src emacs-lisp
 (straight-use-package
  '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss"))
 #+end_src
 
-** Update
-To reinstall server after update ~lsp-tailwindcss-server-version~, use ~C-u lsp-install-server~
+** Language Server
+*** Installation
+1. use =M-x lsp-install-server=, then select =tailwindcss=.
+2. use =npm=, =npm install -g @tailwindcss/language-server=.
+
+*** Update
+1. use =C-u M-x lsp-install-server=, then select =tailwindcss=.
+2. use =npm=, =npm install -g @tailwindcss/language-server=.
+
+* Changelog
+** 0.2
+*** breaking changes
++ now uses [[https://www.npmjs.com/package/@tailwindcss/language-server][tailwindcss language server]] instead of manually download the vscode extension file.
+
+*** major changes
++ added =lsp-tailwindcss-major-modes=, see details in #Customization section.
++ allow global and workspace configuration for tailwindcss-language-server.
++ make variables =lsp-tailwindcss-server-dir=, =lsp-tailwindcss-server-file=, =lsp-tailwindcss-auto-install-server=, =lsp-tailwindcss-server-version= obsolete.
 
 * Customization
-Note: if you want to customize those variables with use-package, do it in the :init block.
+** lsp-tailwindcss
+*** =lsp-tailwindcss-add-on-mode=
+Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]] This must be set before the package loads.
+default: =nil=.
 
-** lsp-tailwindcss-server-dir
-Where the server files are downloaded to, defaults to lsp-server-install-dir/tailwindcss
+*** =lsp-tailwindcss-major-modes= (since 0.2)
+Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them.
+default: =rjsx-mode web-mode html-mode css-mode=.
 
-** lsp-tailwindcss-server-file
-Where to find the server's index.js, defaults to lsp-tailwindcss-server-dir/extension/dist/server/index.js
+** tailwindcss-language-server
+All settings described in [[https://github.com/tailwindlabs/tailwindcss-intellisense#extension-settings][tailwindcss-intellisense]] except:
++ =tailwindCSS.includeLanguages=
+  The activation of the language server is controlled by =lsp-tailwindcss--activate-p=, so this is not needed.
 
-** lsp-tailwindcss-auto-install-server
-Specify that lsp-tailwindcss can be installed with ~(lsp-install-server)~
++ =tailwindCSS.colorDecorators=
+  Emacs does not support color decorators.
 
-** lsp-tailwindcss-server-version
-Specify the language server version, it will always defaults to the newest stable release.
+Default value follows the default value in the documentation.
 
-** lsp-tailwindcss-add-on-mode
-Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]]
+*** Global Configuration
+Custom variable naming convention:
+=tailwindCSS.emmetCompletions= => =lsp-tailwindcss-emmet-completions=.
+
+*** Workspace Configuration
+The global configuration can be override by setting the buffer-local variable =lsp-tailwindcss-workspace-configuration=.
+
+For example, by adding a =.dir-locals.el= in project root with following content:
+#+begin_src emacs-lisp
+((nil . ((lsp-tailwindcss-workspace-configuration . (("rootFontSize" . 100))))))
+#+end_src
+
+Overrides the global customize variable =lsp-tailwindcss-root-font-size=.
