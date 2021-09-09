@@ -67,12 +67,6 @@ Default value follows the default value in the documentation.
 Custom variable naming convention:
 =tailwindCSS.emmetCompletions= => =lsp-tailwindcss-emmet-completions=.
 
-*** Workspace Configuration
-The global configuration can be override by setting the buffer-local variable =lsp-tailwindcss-workspace-configuration=.
 
-For example, by adding a =.dir-locals.el= in project root with following content:
 #+begin_src emacs-lisp
-((nil . ((lsp-tailwindcss-workspace-configuration . (("rootFontSize" . 100))))))
 #+end_src
-
-Overrides the global customize variable =lsp-tailwindcss-root-font-size=.
