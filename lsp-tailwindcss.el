@@ -64,7 +64,7 @@
   :group 'lsp-tailwindcss)
 (make-obsolete-variable 'lsp-tailwindcss-server-version "Not used anymore." "0.2")
 
-(defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode)
+(defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode)
   "Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them."
   :type 'list
   :group 'lsp-tailwindcss

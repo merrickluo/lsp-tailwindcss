@@ -67,12 +67,11 @@ Default value follows the default value in the documentation.
 Custom variable naming convention:
 =tailwindCSS.emmetCompletions= => =lsp-tailwindcss-emmet-completions=.
 
-*** Workspace Configuration
-The global configuration can be override by setting the buffer-local variable =lsp-tailwindcss-workspace-configuration=.
+** Rustywind (class sorter)
+There are two functions integrate the [[https://github.com/avencera/rustywind][rustywind]] class sorter, =lsp-tailwindcss-rustywind= and =lsp-tailwindcss-rustywind-before-save=.
 
-For example, by adding a =.dir-locals.el= in project root with following content:
+After install rustywind =npm i -g rustywind=, run =lsp-tailwindcss-rustywind= manually or add it to before-save-hook to use it.
+
 #+begin_src emacs-lisp
-((nil . ((lsp-tailwindcss-workspace-configuration . (("rootFontSize" . 100))))))
+(add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 #+end_src
-
-Overrides the global customize variable =lsp-tailwindcss-root-font-size=.
