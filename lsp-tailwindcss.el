@@ -216,7 +216,10 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   (and (lsp-workspace-root)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
-           (locate-dominating-file (buffer-file-name) "tailwind.config.js"))
+           (locate-dominating-file (buffer-file-name) "tailwind.config.js")
+           (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
+           (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
+           (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)))
 
 (defun lsp-tailwindcss--company-dash-hack (w)
