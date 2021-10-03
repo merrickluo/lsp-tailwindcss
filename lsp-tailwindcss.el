@@ -214,13 +214,13 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
 
 (defun lsp-tailwindcss--activate-p (&rest _args)
   (and (lsp-workspace-root)
+       (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
            (locate-dominating-file (buffer-file-name) "tailwind.config.js")
            (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
-           (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))
-       (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)))
+           (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))))
 
 (defun lsp-tailwindcss--company-dash-hack (w)
   "Append - to the lsp completion-trigger-characters,
