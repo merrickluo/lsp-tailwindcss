@@ -192,6 +192,14 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
+(defcustom lsp-tailwindcss-experimental-class-regex ""
+  "Custom regex to match tailwindcss classes.
+
+This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-intellisense/issues/129"
+  :type 'string
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
 (lsp-register-custom-settings
  '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
@@ -203,7 +211,8 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
    ("tailwindCSS.lint.invalidApply" lsp-tailwindcss-lint-invalid-apply)
    ("tailwindCSS.lint.invalidConfigPath" lsp-tailwindcss-lint-invalid-config-path)
    ("tailwindCSS.lint.cssConflict" lsp-tailwindcss-lint-css-conflict)
-   ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)))
+   ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
+   ("tailwindCSS.experimental.classRegex" lsp-tailwindcss-experimental-class-regex)))
 ;;; Language server global settings ends here
 
 (lsp-dependency 'tailwindcss-language-server

@@ -75,3 +75,13 @@ After install rustywind =npm i -g rustywind=, run =lsp-tailwindcss-rustywind= ma
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 #+end_src
+
+* Q&A
+** Unable to calculate the languageId for buffer ...
+If you want to use lsp-tailwindcss in some other file types, like =erb=, you might see this error report from =lsp-mode=, the solution is configure the language id for it.
+
+#+begin_src emacs-lisp
+(add-to-list 'lsp-language-id-configuration '(".*\\.erb$" . "html")
+#+end_src
+
+This is a requirement for lsp-mode, not just for =lsp-tailwindcss=, see https://github.com/emacs-lsp/lsp-mode/blob/563233fe72de6f32ffc6a1b3db0ec7f49c12cb50/lsp-mode.el#L694 .
