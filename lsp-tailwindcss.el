@@ -204,7 +204,7 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   "The HTML attributes for which to provide class completions, hover previews, linting etc."
   :type 'lsp-string-vector
   :group 'lsp-tailwindcss
-  :package-version '(lsp-tailwindcss . "0.4"))
+  :package-version '(lsp-tailwindcss . "0.3"))
 
 (lsp-register-custom-settings
  '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
