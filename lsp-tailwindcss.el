@@ -200,6 +200,12 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
 
+(defcustom lsp-tailwindcss-class-attributes ["class" "className" "ngClass"]
+  "The HTML attributes for which to provide class completions, hover previews, linting etc."
+  :type 'lsp-string-vector
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
 (lsp-register-custom-settings
  '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
@@ -212,7 +218,8 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
    ("tailwindCSS.lint.invalidConfigPath" lsp-tailwindcss-lint-invalid-config-path)
    ("tailwindCSS.lint.cssConflict" lsp-tailwindcss-lint-css-conflict)
    ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
-   ("tailwindCSS.experimental.classRegex" lsp-tailwindcss-experimental-class-regex)))
+   ("tailwindCSS.experimental.classRegex" lsp-tailwindcss-experimental-class-regex)
+   ("tailwindCSS.classAttributes" lsp-tailwindcss-class-attributes)))
 ;;; Language server global settings ends here
 
 (lsp-dependency 'tailwindcss-language-server
