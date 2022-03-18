@@ -46,7 +46,13 @@ in ~config.el~
 * Customization
 ** lsp-tailwindcss
 *** =lsp-tailwindcss-add-on-mode=
-Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]] This must be set before the package loads.
+Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]] This must be set before the package loads (use the init block in use-package instead of config block).
+#+begin_src emacs-lisp
+(use-package lsp-tailwindcss
+  :init
+  (setq lsp-tailwindcss-add-on-mode t))
+#+end_src
+
 default: =nil=.
 
 *** =lsp-tailwindcss-major-modes= (since 0.2)
