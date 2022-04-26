@@ -28,7 +28,9 @@ in ~config.el~
 *** Installation
 + use =M-x lsp-install-server=, then select =tailwindcss=.
 + use =npm=, =npm install -g @tailwindcss/language-server=.
-+ add it as development dependencies in project =npm i -D @tailwindcss/language-server=. *this is recommend if you have multiple nodejs versions across multiple projects and your emacs is configured to find executable in =node_modules=.
++ add it as development dependencies in project =npm i -D @tailwindcss/language-server=. *
+
+*: this is recommend if you have multiple nodejs versions across multiple projects and your emacs is configured to find executable in =node_modules=.
 
 *** Update
 + use =C-u M-x lsp-install-server=, then select =tailwindcss=.
