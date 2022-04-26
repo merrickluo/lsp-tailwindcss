@@ -26,12 +26,14 @@ in ~config.el~
 
 ** Language Server
 *** Installation
-1. use =M-x lsp-install-server=, then select =tailwindcss=.
-2. use =npm=, =npm install -g @tailwindcss/language-server=.
++ use =M-x lsp-install-server=, then select =tailwindcss=.
++ use =npm=, =npm install -g @tailwindcss/language-server=.
++ *add it as development dependencies in project =npm i -D @tailwindcss/language-server=
+  this is recommend if you have multiple nodejs versions across multiple project.
 
 *** Update
-1. use =C-u M-x lsp-install-server=, then select =tailwindcss=.
-2. use =npm=, =npm install -g @tailwindcss/language-server=.
++ use =C-u M-x lsp-install-server=, then select =tailwindcss=.
++ use =npm=, =npm install -g @tailwindcss/language-server=.
 
 * Changelog
 ** 0.2
@@ -81,6 +83,11 @@ After install rustywind =npm i -g rustywind=, run =lsp-tailwindcss-rustywind= ma
 #+begin_src emacs-lisp
 (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 #+end_src
+
+* Troubleshooting
+1. make sure the language server is installed, see [[#language-server][Language server]].
+2. run =M-x lsp-describe-sessions= to see if the =tailwindcss= language server is running.
+3. run =M-x lsp-workspace-show-log= to see if there are any errors reported by language server.
 
 * Q&A
 ** Unable to calculate the languageId for buffer ...
