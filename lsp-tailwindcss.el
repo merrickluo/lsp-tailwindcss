@@ -40,29 +40,10 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-dir (expand-file-name "tailwindcss" lsp-server-install-dir)
-  "Local directory for tailwindcss-intellisense."
-  :type 'string
-  :group 'lsp-tailwindcss)
-(make-obsolete-variable 'lsp-tailwindcss-server-dir "Not used anymore." "0.2")
-
-(defcustom lsp-tailwindcss-server-file (expand-file-name "extension/dist/server/tailwindServer.js" lsp-tailwindcss-server-dir)
-  "The index.js file location of tailwindcss-intellisense, do not change when auto install."
-  :type 'string
-  :group 'lsp-tailwindcss)
-(make-obsolete-variable 'lsp-tailwindcss-server-file "Not used anymore." "0.2")
-
-(defcustom lsp-tailwindcss-auto-install-server t
-  "Install tailwindcss language server automatically."
-  :type 'boolean
-  :group 'lsp-tailwindcss)
-(make-obsolete-variable 'lsp-tailwindcss-auto-install-server "Not used anymore." "0.2")
-
-(defcustom lsp-tailwindcss-server-version "0.6.13"
+(defcustom lsp-tailwindcss-server-version "0.8.5"
   "Specify the version of tailwindcss intellisence."
   :type 'string
   :group 'lsp-tailwindcss)
-(make-obsolete-variable 'lsp-tailwindcss-server-version "Not used anymore." "0.2")
 
 (defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode)
   "Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them."
@@ -135,6 +116,24 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   :type 'boolean
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
+
+(defcustom lsp-tailwindcss-hovers t
+  "Enable hovers, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
+(defcustom lsp-tailwindcss-suggestions t
+  "Enable autocomplete suggestions, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
+(defcustom lsp-tailwindcss-code-actions t
+  "Enable code actions, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
 
 (defcustom lsp-tailwindcss-lint-invalid-screen "error"
   "Unknown screen name used with the @screen directive."
@@ -211,6 +210,9 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
    ("tailwindCSS.rootFontSize" lsp-tailwindcss-root-font-size)
    ("tailwindCSS.validate" lsp-tailwindcss-validate t)
+   ("tailwindCSS.hovers" lsp-tailwindcss-hovers t)
+   ("tailwindCSS.suggestions" lsp-tailwindcss-suggestions t)
+   ("tailwindCSS.codeActions" lsp-tailwindcss-code-actions t)
    ("tailwindCSS.lint.invalidScreen" lsp-tailwindcss-lint-invalid-screen)
    ("tailwindCSS.lint.invalidVariant" lsp-tailwindcss-lint-invalid-variant)
    ("tailwindCSS.lint.invalidTailwindDirective" lsp-tailwindcss-lint-invalid-tailwind-directive)
@@ -222,16 +224,29 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
    ("tailwindCSS.classAttributes" lsp-tailwindcss-class-attributes)))
 ;;; Language server global settings ends here
 
+(defun lsp-tailwindcss--download-url ()
+  "Build langauge server download url from version."
+  (let ((version lsp-tailwindcss-server-version))
+    (format "https://github.com/tailwindlabs/tailwindcss-intellisense/releases/download/v%s/vscode-tailwindcss-%s.vsix"
+            version version)))
+
+(defun lsp-tailwindcss-server-command ()
+  "The command to start the language server.
+When installed from the vscode extension."
+  (f-join lsp-server-install-dir "tailwindcss/extension/dist/tailwindServer.js"))
+
 (lsp-dependency 'tailwindcss-language-server
-                '(:system "tailwindcss-language-server")
-                '(:npm
-                  :package "@tailwindcss/language-server"
-                  :path "tailwindcss-language-server"))
+                `(:download
+                  :url lsp-tailwindcss--download-url
+                  :decompress :zip
+                  :store-path ,(f-join lsp-server-install-dir "tailwindcss" "server")
+                  :binary-path lsp-tailwindcss-server-command))
 
 (defun lsp-tailwindcss--activate-p (&rest _args)
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
+           (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
            (locate-dominating-file (buffer-file-name) "tailwind.config.js")
            (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
@@ -258,7 +273,7 @@ workaround the problem that company-mode completion not work when typing \"-\" i
  (make-lsp-client
   :new-connection (lsp-stdio-connection
                    (lambda ()
-                     `(,(lsp-package-path 'tailwindcss-language-server) "--stdio")))
+                     `("node" ,(lsp-package-path 'tailwindcss-language-server) "--stdio")))
   :activation-fn #'lsp-tailwindcss--activate-p
   :server-id 'tailwindcss
   :priority -1
