@@ -246,6 +246,7 @@ When installed from the vscode extension."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
+           (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
            (locate-dominating-file (buffer-file-name) "tailwind.config.js")
            (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
