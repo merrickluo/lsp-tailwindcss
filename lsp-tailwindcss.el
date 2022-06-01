@@ -54,7 +54,16 @@
 (defcustom lsp-tailwindcss-rustywind-command (executable-find "rustywind")
   "[Experimental] Command use for sort the tailwindcss classes."
   :type 'string
-  :group 'lsp-tailwindcss)
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
+(defcustom lsp-tailwindcss-skip-config-check nil
+  "Force skip config file check.
+Only use it when your config file are in unconventional location
+and make sure tailwindcss language server can find it."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
 
 (defun lsp-tailwindcss-rustywind ()
   "[Experimental] Sort tailwindcss class name using rustywind.
@@ -261,13 +270,26 @@ When installed from the vscode extension."
                   :store-path ,(f-join lsp-server-install-dir "tailwindcss" "server")
                   :binary-path lsp-tailwindcss-server-command))
 
+(defun lsp-tailwindcss--has-config-file ()
+  "Check if there is a tailwindcss config file exists.
+To keep it simple and performant,only check for conventional location.
+see `lsp-tailwindcss-skip-config-check'"
+  (or lsp-tailwindcss-skip-config-check
+      lsp-tailwindcss-experimental-config-file
+      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
+      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
+      (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
+      (locate-dominating-file (buffer-file-name) "tailwind.config.js")
+      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
+      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
+      (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
+      (locate-dominating-file (buffer-file-name) "tailwind.config.cjs")))
+
 (defun lsp-tailwindcss--activate-p (&rest _args)
   "Check if tailwindcss language server can/should start."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
-       (or
-        (f-glob "**/tailwind.config.js" (lsp-workspace-root))
-        (f-glob "**/tailwind.config.cjs" (lsp-workspace-root)))))
+       (lsp-tailwindcss--has-config-file)))
 
 (defun lsp-tailwindcss--company-dash-hack (workspace)
   "Append - to the lsp completion-trigger-characters.
