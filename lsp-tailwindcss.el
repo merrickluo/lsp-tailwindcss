@@ -208,6 +208,21 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
 
+(defcustom lsp-tailwindcss-experimental-config-file nil
+  "Manually specify the Tailwind config file or files.
+It can be a single string or a hash map. see
+https://github.com/tailwindlabs/tailwindcss-intellisense#tailwindcssexperimentalconfigfile
+Example:
+\(setq lsp-tailwindcss-experimental-config-file \"config/tailwindcss.conf.js\")
+
+\(setq lsp-tailwindcss-experimental-config-file
+      (ht
+       (\"themes/simple/tailwind.config.js\" \"themes/simple/**\")
+       (\"themes/neon/tailwind.config.js\" \"themes/neon/**\")))"
+  :type 'other
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
 (lsp-register-custom-settings
  '(("tailwindCSS.emmetCompletions" lsp-tailwindcss-emmet-completions t)
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
@@ -224,6 +239,7 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
    ("tailwindCSS.lint.cssConflict" lsp-tailwindcss-lint-css-conflict)
    ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
    ("tailwindCSS.experimental.classRegex" lsp-tailwindcss-experimental-class-regex)
+   ("tailwindCSS.experimental.configFile" lsp-tailwindcss-experimental-config-file)
    ("tailwindCSS.classAttributes" lsp-tailwindcss-class-attributes)))
 ;;; Language server global settings ends here
 
