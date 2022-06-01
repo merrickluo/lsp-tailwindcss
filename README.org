@@ -26,17 +26,20 @@ in ~config.el~
 
 ** Language Server
 *** Installation
-+ use =M-x lsp-install-server=, then select =tailwindcss=.
-+ use =npm=, =npm install -g @tailwindcss/language-server=.
-+ add it as development dependencies in project =npm i -D @tailwindcss/language-server=. *
-
-*: this is recommend if you have multiple nodejs versions across multiple projects and your emacs is configured to find executable in =node_modules=.
++ =M-x lsp-install-server=, then select =tailwindcss=.
 
 *** Update
-+ use =C-u M-x lsp-install-server=, then select =tailwindcss=.
-+ use =npm=, =npm install -g @tailwindcss/language-server=.
++ =C-u M-x lsp-install-server=, then select =tailwindcss=.
 
 * Changelog
+** 0.3
+*** breaking changes
++ back to use the vscode extension asset for language server installation, since the npm package don't get updates.
+
+*** minor changes
++ more language server settings mapped to custom variables.
++ add new configuration =lsp-tailwindcss-skip-config-check= to skip the config file check, since it's hard to keep it the same with the language server.
+
 ** 0.2
 *** breaking changes
 + now uses [[https://www.npmjs.com/package/@tailwindcss/language-server][tailwindcss language server]] instead of manually download the vscode extension file.
