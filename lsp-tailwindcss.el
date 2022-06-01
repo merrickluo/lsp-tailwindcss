@@ -117,6 +117,24 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
+(defcustom lsp-tailwindcss-hovers t
+  "Enable hovers, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
+(defcustom lsp-tailwindcss-suggestions t
+  "Enable autocomplete suggestions, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
+(defcustom lsp-tailwindcss-code-actions t
+  "Enable code actions, default: true."
+  :type 'boolean
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.3"))
+
 (defcustom lsp-tailwindcss-lint-invalid-screen "error"
   "Unknown screen name used with the @screen directive."
   :type '(choice (const "ignore")
@@ -192,6 +210,9 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
    ("tailwindCSS.showPixelEquivalents" lsp-tailwindcss-show-pixel-equivalents t)
    ("tailwindCSS.rootFontSize" lsp-tailwindcss-root-font-size)
    ("tailwindCSS.validate" lsp-tailwindcss-validate t)
+   ("tailwindCSS.hovers" lsp-tailwindcss-hovers t)
+   ("tailwindCSS.suggestions" lsp-tailwindcss-suggestions t)
+   ("tailwindCSS.codeActions" lsp-tailwindcss-code-actions t)
    ("tailwindCSS.lint.invalidScreen" lsp-tailwindcss-lint-invalid-screen)
    ("tailwindCSS.lint.invalidVariant" lsp-tailwindcss-lint-invalid-variant)
    ("tailwindCSS.lint.invalidTailwindDirective" lsp-tailwindcss-lint-invalid-tailwind-directive)
