@@ -5,7 +5,7 @@
 ;; Author: A.I. <merrick@luois.me>
 ;; Keywords: language tools
 ;; Version: 0.2
-;; Package-Requires: ((lsp-mode "7.1") (emacs "26.1"))
+;; Package-Requires: ((lsp-mode "7.1") (f "0.20.0") (emacs "26.1"))
 ;; Keywords: tailwindcss
 ;; URL: https://github.com/merrickluo/lsp-tailwindcss
 
@@ -249,13 +249,9 @@ When installed from the vscode extension."
   "Check if tailwindcss language server can/should start."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
-       (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
-           (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
-           (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
-           (locate-dominating-file (buffer-file-name) "tailwind.config.js")
-           (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
-           (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
-           (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))))
+       (or
+        (f-glob "**/tailwind.config.js" (lsp-workspace-root))
+        (f-glob "**/tailwind.config.cjs" (lsp-workspace-root)))))
 
 (defun lsp-tailwindcss--company-dash-hack (workspace)
   "Append - to the lsp completion-trigger-characters.
