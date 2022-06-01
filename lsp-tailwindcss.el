@@ -32,7 +32,7 @@
 (require 'lsp-mode)
 
 (defgroup lsp-tailwindcss nil
-  "lsp support for tailwind css"
+  "Adds lsp-mode support for tailwindcss."
   :group 'lsp-mode)
 
 (defcustom lsp-tailwindcss-add-on-mode nil
@@ -46,7 +46,7 @@
   :group 'lsp-tailwindcss)
 
 (defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode)
-  "Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them."
+  "Major modes that lsp-tailwindcss should activate."
   :type 'list
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
@@ -79,18 +79,18 @@ This is an *experimental* feature, please be careful when use."
     (error (format "Can't find rustywind executable at %s" lsp-tailwindcss-rustywind-command))))
 
 (defun lsp-tailwindcss-rustywind-before-save()
-  "[Experimental] Add this to `before-save-hook' to run rustywind when saving buffer.
-(add-hook 'before-save-hook #'lsp-tailwindcss-rustywind-before-save).
-
-It only runs when lsp-tailwindcss can be activated determined by `lsp-tailwindcss--activate-p'.
-This is an *experimental* feature, please be careful when use.
-"
+  "[Experimental] Run rustywind when saving buffer.
+By add this to `before-save-hook',
+it only runs when lsp-tailwindcss can be activated,
+see `lsp-tailwindcss--activate-p'.
+This is an *experimental* feature, please use it carefully."
   (when (lsp-tailwindcss--activate-p)
     (lsp-tailwindcss-rustywind)))
 
 ;;; Language server global settings:
 (defcustom lsp-tailwindcss-emmet-completions nil
-  "Enable completions when using Emmet-style syntax, for example div.bg-red-500.uppercase."
+  "Enable completions when using Emmet-style syntax.
+For example div.bg-red-500.uppercase."
   :type 'boolean
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
@@ -102,17 +102,19 @@ This is an *experimental* feature, please be careful when use.
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-root-font-size 16
- "Root font size in pixels. Used to convert rem CSS values to their px equivalents.
-see `lsp-tailwindcss-show-pixel-equivalents'"
+ "Root font size in pixels.
+Used to convert rem CSS values to their px equivalents,
+ see `lsp-tailwindcss-show-pixel-equivalents'"
   :type 'number
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-validate t
-  "Enable linting. Rules can be configured individually using the lsp-tailwindcss-lint-* settings:
-    ignore: disable lint rule entirely
-    warning: rule violations will be considered \"warnings\", typically represented by a yellow underline
-    error: rule violations will be considered \"errors\", typically represented by a red underline."
+  "Enable linting.
+Rules can be configured individually using the lsp-tailwindcss-lint-* settings:
+  ignore: disable lint rule entirely
+  warning: rule violations will be considered \"warnings\"
+  error: rule violations will be considered \"errors\""
   :type 'boolean
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
@@ -176,7 +178,8 @@ see `lsp-tailwindcss-show-pixel-equivalents'"
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-css-conflict "warning"
-  "Class names on the same HTML element which apply the same CSS property or properties."
+  "Class names on the same HTML element.
+Which apply the same CSS property or properties."
   :type '(choice (const "ignore")
                  (const "warning")
                  (const "error"))
@@ -200,7 +203,7 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   :package-version '(lsp-tailwindcss . "0.3"))
 
 (defcustom lsp-tailwindcss-class-attributes ["class" "className" "ngClass"]
-  "The HTML attributes for which to provide class completions, hover previews, linting etc."
+  "The HTML attributes to provide class completions, hover previews, linting etc."
   :type 'lsp-string-vector
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
@@ -243,6 +246,7 @@ When installed from the vscode extension."
                   :binary-path lsp-tailwindcss-server-command))
 
 (defun lsp-tailwindcss--activate-p (&rest _args)
+  "Check if tailwindcss language server can/should start."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
        (or (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
@@ -253,11 +257,13 @@ When installed from the vscode extension."
            (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
            (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))))
 
-(defun lsp-tailwindcss--company-dash-hack (w)
-  "Append - to the lsp completion-trigger-characters,
-workaround the problem that company-mode completion not work when typing \"-\" in classname."
-  (with-lsp-workspace w
-    (let* ((caps (lsp--workspace-server-capabilities w))
+(defun lsp-tailwindcss--company-dash-hack (workspace)
+  "Append - to the lsp completion-trigger-characters.
+WORKSPACE: current workspace.
+workaround the problem that company-mode completion
+not work when typing \"-\" in classname."
+  (with-lsp-workspace workspace
+    (let* ((caps (lsp--workspace-server-capabilities workspace))
            (comp (lsp:server-capabilities-completion-provider? caps))
            (trigger-chars (append (lsp:completion-options-trigger-characters? comp) nil)))
       (lsp:set-completion-options-trigger-characters?
@@ -266,7 +272,7 @@ workaround the problem that company-mode completion not work when typing \"-\" i
         (cl-pushnew "-" trigger-chars :test #'string=))))))
 
 (defun lsp-tailwindcss--initialization-options ()
-  "tailwindcss-language-server requires configuration not be null."
+  "The tailwindcss-language-server requires configuration not be null."
   (ht ("configuration" (lsp-configuration-section "tailwindcss"))))
 
 (lsp-register-client
