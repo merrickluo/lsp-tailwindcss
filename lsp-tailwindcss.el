@@ -96,6 +96,16 @@ This is an *experimental* feature, please use it carefully."
   (when (lsp-tailwindcss--activate-p)
     (lsp-tailwindcss-rustywind)))
 
+(defun lsp-tailwindcss-installed-server-version()
+  "[Experimental] Get the installed version of tailwindcss language server."
+  (let ((package-json-file (f-join lsp-server-install-dir "tailwindcss/extension/package.json")))
+    (if (f-exists? package-json-file)
+        (let ((json-object-type 'hash-table)
+              (json-array-type 'list)
+              (json-key-type 'string))
+          (gethash "version" (json-read-file package-json-file)))
+      (error "Can't find package.json file at %s" package-json-file))))
+
 ;;; Language server global settings:
 (defcustom lsp-tailwindcss-emmet-completions nil
   "Enable completions when using Emmet-style syntax.
