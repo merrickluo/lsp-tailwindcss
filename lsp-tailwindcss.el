@@ -65,6 +65,7 @@ and make sure tailwindcss language server can find it."
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
 
+;;;###autoload
 (defun lsp-tailwindcss-rustywind ()
   "[Experimental] Sort tailwindcss class name using rustywind.
 This is an *experimental* feature, please be careful when use."
@@ -87,6 +88,7 @@ This is an *experimental* feature, please be careful when use."
         (delete-file tmpfile)))
     (error (format "Can't find rustywind executable at %s" lsp-tailwindcss-rustywind-command))))
 
+;;;###autoload
 (defun lsp-tailwindcss-rustywind-before-save()
   "[Experimental] Run rustywind when saving buffer.
 By add this to `before-save-hook',
@@ -96,14 +98,16 @@ This is an *experimental* feature, please use it carefully."
   (when (lsp-tailwindcss--activate-p)
     (lsp-tailwindcss-rustywind)))
 
+;;;###autoload
 (defun lsp-tailwindcss-installed-server-version()
   "[Experimental] Get the installed version of tailwindcss language server."
+  (interactive)
   (let ((package-json-file (f-join lsp-server-install-dir "tailwindcss/extension/package.json")))
     (if (f-exists? package-json-file)
         (let ((json-object-type 'hash-table)
               (json-array-type 'list)
               (json-key-type 'string))
-          (gethash "version" (json-read-file package-json-file)))
+          (message "%s" (gethash "version" (json-read-file package-json-file))))
       (error "Can't find package.json file at %s" package-json-file))))
 
 ;;; Language server global settings:
