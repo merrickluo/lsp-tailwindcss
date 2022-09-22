@@ -45,7 +45,7 @@
   :type 'string
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode)
+(defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode tsx-mode)
   "Major modes that lsp-tailwindcss should activate."
   :type 'list
   :group 'lsp-tailwindcss
