@@ -63,7 +63,7 @@ default: =nil=.
 
 *** =lsp-tailwindcss-major-modes= (since 0.2)
 Specify lsp-tailwindcss should only starts when major-mode in the list or derived from them.
-default: =rjsx-mode web-mode html-mode css-mode=.
+default: =rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode=.
 
 ** tailwindcss-language-server
 All settings described in [[https://github.com/tailwindlabs/tailwindcss-intellisense#extension-settings][tailwindcss-intellisense]] except:
