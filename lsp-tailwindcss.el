@@ -294,8 +294,9 @@ see `lsp-tailwindcss-skip-config-check'"
       (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
       (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
       (locate-dominating-file (buffer-file-name) "tailwind.config.js")
+
       (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
-      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
+      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.cjs"))
       (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
       (locate-dominating-file (buffer-file-name) "tailwind.config.cjs"))
 
