@@ -40,7 +40,7 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-version "0.9.11"
+(defcustom lsp-tailwindcss-server-version "0.10.2"
   "Specify the version of tailwindcss intellisence."
   :type 'string
   :group 'lsp-tailwindcss)
@@ -78,20 +78,20 @@ This is an *experimental* feature, please be careful when use."
   (interactive)
   (if (and lsp-tailwindcss-rustywind-command
            (f-executable-p lsp-tailwindcss-rustywind-command))
-    (let ((tmpfile (make-nearby-temp-file "rustywind" nil nil))
-          (coding-system-for-read 'utf-8)
-          (coding-system-for-write 'utf-8))
+      (let ((tmpfile (make-nearby-temp-file "rustywind" nil nil))
+            (coding-system-for-read 'utf-8)
+            (coding-system-for-write 'utf-8))
 
-      (unwind-protect
-          (save-restriction
-            (widen)
-            (write-region nil nil tmpfile)
+        (unwind-protect
+            (save-restriction
+              (widen)
+              (write-region nil nil tmpfile)
 
-            (let ((rustywind-args (append (list "--write" (file-local-name tmpfile)) lsp-tailwindcss-rustywind-extra-args)))
-              (when (zerop (apply #'process-file lsp-tailwindcss-rustywind-command nil nil nil rustywind-args))
-                (insert-file-contents tmpfile nil nil nil t))))
+              (let ((rustywind-args (append (list "--write" (file-local-name tmpfile)) lsp-tailwindcss-rustywind-extra-args)))
+                (when (zerop (apply #'process-file lsp-tailwindcss-rustywind-command nil nil nil rustywind-args))
+                  (insert-file-contents tmpfile nil nil nil t))))
 
-        (delete-file tmpfile)))
+          (delete-file tmpfile)))
     (error (format "Can't find rustywind executable at %s" lsp-tailwindcss-rustywind-command))))
 
 ;;;###autoload
@@ -131,7 +131,7 @@ For example div.bg-red-500.uppercase."
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-root-font-size 16
- "Root font size in pixels.
+  "Root font size in pixels.
 Used to convert rem CSS values to their px equivalents,
  see `lsp-tailwindcss-show-pixel-equivalents'"
   :type 'number
@@ -169,40 +169,40 @@ Rules can be configured individually using the lsp-tailwindcss-lint-* settings:
 (defcustom lsp-tailwindcss-lint-invalid-screen "error"
   "Unknown screen name used with the @screen directive."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-invalid-variant "error"
   "Unknown variant name used with the @variants directive."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-invalid-tailwind-directive "error"
   "Unknown value used with the @tailwind directive."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-invalid-apply "error"
   "Unsupported use of the @apply directive."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-invalid-config-path "error"
   "Unknown or invalid path used with the theme helper."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
@@ -210,16 +210,16 @@ Rules can be configured individually using the lsp-tailwindcss-lint-* settings:
   "Class names on the same HTML element.
 Which apply the same CSS property or properties."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
 (defcustom lsp-tailwindcss-lint-recommended-variant-order "warning"
   "Class variants not in the recommended order (applies in JIT mode only)."
   :type '(choice (const "ignore")
-                 (const "warning")
-                 (const "error"))
+          (const "warning")
+          (const "error"))
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.2"))
 
@@ -306,7 +306,7 @@ see `lsp-tailwindcss-skip-config-check'"
       (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
       (locate-dominating-file (buffer-file-name) "tailwind.config.cjs")
 
-     (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.ts"))
+      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.ts"))
       (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.ts"))
       (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.ts"))
       (locate-dominating-file (buffer-file-name) "tailwind.config.ts")))
