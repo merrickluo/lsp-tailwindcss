@@ -15,7 +15,7 @@ in ~packages.el~
 
 in ~config.el~
 #+begin_src emacs-lisp
-(use-package! lsp-tailwindcss)
+(use-package! lsp-tailwindcss :after lsp-mode)
 #+end_src
 
 ** straight.el
@@ -55,6 +55,7 @@ in ~config.el~
 Specify that if lsp-tailwindcss runs in add-on mode, see [[https://emacs-lsp.github.io/lsp-mode/page/faq/][in lsp-mode's documentation.]] This must be set before the package loads (use the init block in use-package instead of config block).
 #+begin_src emacs-lisp
 (use-package lsp-tailwindcss
+  :after lsp-mode
   :init
   (setq lsp-tailwindcss-add-on-mode t))
 #+end_src
@@ -108,7 +109,10 @@ This is a requirement for lsp-mode, not just for =lsp-tailwindcss=, see https://
 twin.macro can be integrated using =lsp-tailwindcss-experimental-class-regex= variable (which is alias to =tailwindCSS.experimental.classRegex= . see the reference to [[https://github.com/ben-rogerson/twin.macro/discussions/227][discussion]])
 
 #+begin_src emacs-lisp
-(use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw([^]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+([^]*)" "tw\\(.*?\\)([^]*)"]))
+(use-package! lsp-tailwindcss
+  :after lsp-mode
+  :init
+  (setq! lsp-tailwindcss-experimental-class-regex ["tw([^]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+([^]*)" "tw\\(.*?\\)([^]*)"]))
 #+end_src
 
 
@@ -116,5 +120,8 @@ Take a note that it can lead to [[https://emacs-lsp.github.io/lsp-mode/page/faq/
 
 Set up with add-on mode:
 #+begin_src emacs-lisp
-(use-package! lsp-tailwindcss :init (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
+(use-package! lsp-tailwindcss
+  :after lsp-mode
+  :init
+  (setq! lsp-tailwindcss-experimental-class-regex ["tw`([^`]*)" "tw=\"([^\"]*)" "tw={\"([^\"}]*)" "tw\\.\\w+`([^`]*)" "tw\\(.*?\\)`([^`]*)"]) (setq! lsp-tailwindcss-add-on-mode t))
 #+end_src
