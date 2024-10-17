@@ -334,7 +334,8 @@ not work when typing \"-\" in classname."
   :add-on? lsp-tailwindcss-add-on-mode
   :initialization-options #'lsp-tailwindcss--initialization-options
   :initialized-fn #'lsp-tailwindcss--company-dash-hack
-  :notification-handlers (ht ("@/tailwindCSS/projectInitialized" #'ignore))
+  :notification-handlers (ht ("@/tailwindCSS/projectInitialized" #'ignore)
+                             ("@/tailwindCSS/projectsDestroyed" #'ignore))
   :download-server-fn (lambda (_client callback error-callback _update?)
                         (lsp-package-ensure 'tailwindcss-language-server callback error-callback))))
 
