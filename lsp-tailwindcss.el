@@ -296,20 +296,8 @@ To keep it simple and performant,only check for conventional location.
 see `lsp-tailwindcss-skip-config-check'"
   (or lsp-tailwindcss-skip-config-check
       lsp-tailwindcss-experimental-config-file
-      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.js"))
-      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.js"))
-      (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.js"))
-      (locate-dominating-file (buffer-file-name) "tailwind.config.js")
-
-      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.cjs"))
-      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.cjs"))
-      (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.cjs"))
-      (locate-dominating-file (buffer-file-name) "tailwind.config.cjs")
-
-      (file-exists-p (f-join (lsp-workspace-root) "tailwind.config.ts"))
-      (file-exists-p (f-join (lsp-workspace-root) "config" "tailwind.config.ts"))
-      (file-exists-p (f-join (lsp-workspace-root) "assets" "tailwind.config.ts"))
-      (locate-dominating-file (buffer-file-name) "tailwind.config.ts")))
+      (f-glob "tailwind.config.*" (lsp-workspace-root))
+      (f-glob "**/tailwind.config.*" (lsp-workspace-root))))
 
 (defun lsp-tailwindcss--activate-p (&rest _args)
   "Check if tailwindcss language server can/should start."
