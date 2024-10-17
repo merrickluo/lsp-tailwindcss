@@ -275,8 +275,7 @@ Example:
 (defun lsp-tailwindcss--download-url ()
   "Build langauge server download url from version."
   (let ((version lsp-tailwindcss-server-version))
-    (format "https://github.com/tailwindlabs/tailwindcss-intellisense/releases/download/v%s/vscode-tailwindcss-%s.vsix"
-            version version)))
+    (lsp-vscode-extension-url "bradlc" "vscode-tailwindcss" version)))
 
 (defun lsp-tailwindcss-server-command ()
   "The command to start the language server.
