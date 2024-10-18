@@ -45,6 +45,13 @@
   :type 'string
   :group 'lsp-tailwindcss)
 
+(defcustom lsp-tailwindcss-server-path ""
+  "Path to the tailwindcss lsp server binary (node.js executable).
+
+Leave empty to use the managed installation."
+  :type 'string
+  :group 'lsp-tailwindcss)
+
 (defcustom lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode typescript-tsx-mode tsx-ts-mode)
   "Major modes that lsp-tailwindcss should activate."
   :type 'list
@@ -318,6 +325,11 @@ not work when typing \"-\" in classname."
        (vconcat
         (cl-pushnew "-" trigger-chars :test #'string=))))))
 
+(defun lsp-tailwindcss--server-path ()
+  (if (string-empty-p lsp-tailwindcss-server-path)
+      (lsp-package-path 'tailwindcss-language-server)
+    lsp-tailwindcss-server-path))
+
 (defun lsp-tailwindcss--initialization-options ()
   "The tailwindcss-language-server requires configuration not be null."
   (ht ("configuration" (lsp-configuration-section "tailwindcss"))))
@@ -326,7 +338,7 @@ not work when typing \"-\" in classname."
  (make-lsp-client
   :new-connection (lsp-stdio-connection
                    (lambda ()
-                     `("node" ,(lsp-package-path 'tailwindcss-language-server) "--stdio")))
+                     `("node" ,(lsp-tailwindcss--server-path) "--stdio")))
   :activation-fn #'lsp-tailwindcss--activate-p
   :server-id 'tailwindcss
   :priority -1
