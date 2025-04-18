@@ -4,7 +4,7 @@
 
 ;; Author: A.I. <merrick@luois.me>
 ;; Keywords: language tools
-;; Version: 0.4
+;; Version: 0.5
 ;; Package-Requires: ((lsp-mode "7.1") (f "0.20.0") (emacs "26.1"))
 ;; Keywords: tailwindcss
 ;; URL: https://github.com/merrickluo/lsp-tailwindcss
@@ -244,6 +244,12 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
 
+(defcustom lsp-tailwindcss-class-functions nil
+  "Functions in which to provide completions, hover previews, linting etc. Currently, this works for both function calls and tagged template literals in JavaScript / TypeScript."
+  :type 'lsp-string-vector
+  :group 'lsp-tailwindcss
+  :package-version '(lsp-tailwindcss . "0.5"))
+
 (defcustom lsp-tailwindcss-experimental-config-file nil
   "Manually specify the Tailwind config file or files.
 It can be a single string or a hash map. see
@@ -276,7 +282,8 @@ Example:
    ("tailwindCSS.lint.recommendedVariantOrder" lsp-tailwindcss-lint-recommended-variant-order)
    ("tailwindCSS.experimental.classRegex" lsp-tailwindcss-experimental-class-regex)
    ("tailwindCSS.experimental.configFile" lsp-tailwindcss-experimental-config-file)
-   ("tailwindCSS.classAttributes" lsp-tailwindcss-class-attributes)))
+   ("tailwindCSS.classAttributes" lsp-tailwindcss-class-attributes)
+   ("tailwindCSS.classFunctions" lsp-tailwindcss-class-functions)))
 ;;; Language server global settings ends here
 
 (defun lsp-tailwindcss--download-url ()
