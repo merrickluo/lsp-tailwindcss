@@ -238,7 +238,7 @@ This is a undocumented setting, see https://github.com/tailwindlabs/tailwindcss-
   :group 'lsp-tailwindcss
   :package-version '(lsp-tailwindcss . "0.3"))
 
-(defcustom lsp-tailwindcss-class-attributes ["class" "className" "ngClass"]
+(defcustom lsp-tailwindcss-class-attributes ["class" "className" "ngClass" "class:list"]
   "The HTML attributes to provide class completions, hover previews, linting etc."
   :type 'lsp-string-vector
   :group 'lsp-tailwindcss
