@@ -40,7 +40,7 @@
   :type 'boolean
   :group 'lsp-tailwindcss)
 
-(defcustom lsp-tailwindcss-server-version "0.14.7"
+(defcustom lsp-tailwindcss-server-version "0.14.26"
   "Specify the version of tailwindcss intellisence."
   :type 'string
   :group 'lsp-tailwindcss)
@@ -312,11 +312,20 @@ see `lsp-tailwindcss-skip-config-check'"
       (f-glob "tailwind.config.*" (lsp-workspace-root))
       (f-glob "**/tailwind.config.*" (lsp-workspace-root))))
 
+(defun lsp-tailwindcss--v4-p ()
+  (if-let* ((json-str (shell-command-to-string "npm list tailwindcss --depth=0 --json"))
+            (json-object-type 'alist)
+            (json (ignore-errors (json-read-from-string json-str)))
+            (dep (cdr (assoc 'dependencies json)))
+            (tw (cdr (assoc 'tailwindcss dep)))
+            (ver (cdr (assoc 'version tw))))
+      (version<= "4.0.0" ver)))
+
 (defun lsp-tailwindcss--activate-p (&rest _args)
   "Check if tailwindcss language server can/should start."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
-       (lsp-tailwindcss--has-config-file)))
+       (or (lsp-tailwindcss--has-config-file) (lsp-tailwindcss--v4-p))))
 
 (defun lsp-tailwindcss--company-dash-hack (workspace)
   "Append - to the lsp completion-trigger-characters.
