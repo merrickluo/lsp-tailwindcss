@@ -312,11 +312,37 @@ see `lsp-tailwindcss-skip-config-check'"
       (f-glob "tailwind.config.*" (lsp-workspace-root))
       (f-glob "**/tailwind.config.*" (lsp-workspace-root))))
 
+(defun lsp-tailwindcss--version ()
+  "Return tailwindcss version from package.json in workspace root, or nil.
+Checks \"dependencies\" first, then \"devDependencies\"."
+  (if-let* ((file (f-join (lsp-workspace-root) "package.json"))
+            (data (condition-case _err
+                      (if (fboundp 'json-parse-file)
+                          (json-parse-file file :object-type 'alist)
+                        (json-read-file file))
+                    (error nil)))
+            (get (lambda (k a) (when a (alist-get k a)))))
+      (cl-loop for field in '(dependencies devDependencies)
+               for deps = (funcall get field data)
+               for ver = (funcall get 'tailwindcss deps)
+               when (> (length ver) 0)
+               return (if (cl-digit-char-p (aref ver 0))
+                          ver
+                        (substring ver 1)))))
+
+(defun lsp-tailwindcss--v4-p ()
+  (let* ((root (lsp-workspace-root))
+         (version (or (get-text-property 0 'lsp-tailwindcss--version root)
+                      (let ((ver (or (lsp-tailwindcss--version) "0")))
+                        (put-text-property 0 1 'lsp-tailwindcss--version ver root)
+                        ver))))
+    (version<= "4.0.0" version)))
+
 (defun lsp-tailwindcss--activate-p (&rest _args)
   "Check if tailwindcss language server can/should start."
   (and (lsp-workspace-root)
        (apply #'provided-mode-derived-p major-mode lsp-tailwindcss-major-modes)
-       (lsp-tailwindcss--has-config-file)))
+       (or (lsp-tailwindcss--has-config-file) (lsp-tailwindcss--v4-p))))
 
 (defun lsp-tailwindcss--company-dash-hack (workspace)
   "Append - to the lsp completion-trigger-characters.
