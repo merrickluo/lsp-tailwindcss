@@ -1,5 +1,5 @@
 (package "lsp-tailwindcss"
-         "0.4"
+         "0.5"
          "A lsp-mode client for tailwindcss")
 
 (website-url "https://github.com/merrickluo/lsp-tailwindcss")
