@@ -22,7 +22,7 @@ compile:
 test:
 	@echo "Testing..."
 	$(EASK) install-deps --dev
-	$(EASK) ert ./test/*.el
+	$(EASK) test ert ./test/*.el
 
 checkdoc:
 	@echo "Run checkdoc..."
