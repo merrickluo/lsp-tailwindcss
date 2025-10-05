@@ -30,6 +30,7 @@
 
 ;;; Code:
 (require 'lsp-mode)
+(require 'f)
 
 (defgroup lsp-tailwindcss nil
   "Adds lsp-mode support for tailwindcss."
