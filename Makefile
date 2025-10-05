@@ -5,7 +5,7 @@ EASK ?= eask
 
 .PHONY: ci clean package install compile test checkdoc lint
 
-ci: clean package install compile checkdoc lint
+ci: clean package install compile checkdoc lint test
 
 package:
 	@echo "Packaging..."
