@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 (require 'ert)
 
 ;; Load the file to be tested
@@ -45,6 +46,10 @@
 (ert-deftest lsp-tailwindcss--version-v4-p-test ()
   "Test `lsp-tailwindcss--version-v4-p` function."
   ;; Versions that should be considered v4 or greater
+  (should (lsp-tailwindcss--version-v4-p "^4"))
+  (should (lsp-tailwindcss--version-v4-p "^4.1"))
+  (should (lsp-tailwindcss--version-v4-p "~4"))
+  (should (lsp-tailwindcss--version-v4-p "~4.1"))
   (should (lsp-tailwindcss--version-v4-p "4.0.0"))
   (should (lsp-tailwindcss--version-v4-p "4.1.2"))
   (should (lsp-tailwindcss--version-v4-p "^4.0.0"))
@@ -54,6 +59,10 @@
   (should (lsp-tailwindcss--version-v4-p "^11.2.3"))
 
   ;; Versions that should not be considered v4
+  (should-not (lsp-tailwindcss--version-v4-p "^3"))
+  (should-not (lsp-tailwindcss--version-v4-p "^3.1"))
+  (should-not (lsp-tailwindcss--version-v4-p "~3"))
+  (should-not (lsp-tailwindcss--version-v4-p "~3.1"))
   (should-not (lsp-tailwindcss--version-v4-p "3.0.0"))
   (should-not (lsp-tailwindcss--version-v4-p "3.9.9"))
   (should-not (lsp-tailwindcss--version-v4-p "^3.1.0"))
