@@ -330,7 +330,7 @@ Checks both \"dependencies\" and \"devDependencies\"."
   "Check if tailwindcss package VERSION is v4 or above.
 Will try to lookup the version if not provided"
   (when-let ((version (or version (lsp-tailwindcss--package-version))))
-    (string-match-p "^[~^]?\\([4-9]\\|[0-9]\\{2\\}\\)\\." version)))
+    (string-match-p "^[~^]?\\([4-9]\\|[0-9]\\{2\\}\\)\\.?" version)))
 
 (defun lsp-tailwindcss--activate-p (&rest _args)
   "Check if tailwindcss language server can/should start."
