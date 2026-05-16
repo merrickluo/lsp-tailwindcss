@@ -2,6 +2,10 @@
 
 * lsp-tailwindcss
 
+*This project is deprecated.* It has been integrated into [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] directly. See [[https://github.com/emacs-lsp/lsp-mode/pull/5061][emacs-lsp/lsp-mode#5061]] for details.
+
+-----
+
 The [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] client for tailwindcss, using language server from [[https://github.com/tailwindlabs/tailwindcss-intellisense][official vscode plugin]].
 
 [[file:images/autocomplete.png]]
